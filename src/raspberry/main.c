@@ -15,6 +15,12 @@
 #define MAX_MSG_LEN 1024
 
 
+struct raw_data {
+    int16_t ax, ay, az;
+    int16_t gx, gy, gz;
+    int16_t t;
+}data;
+
 
 int udp_recv(int sockfd)
 {
@@ -25,16 +31,19 @@ int udp_recv(int sockfd)
 
     fprintf(stdout, "Waiting client data...\n");
     while (1) {
-        bzero(msg, sizeof(msg));
+        bzero(&data, sizeof(data));
         addrlen = sizeof(struct sockaddr); 
-        bytes = recvfrom(sockfd, msg, 128, 0, (struct sockaddr*)&addr, &addrlen);
-        msg[bytes] = 0;
+        // bytes = recvfrom(sockfd, msg, 128, 0, (struct sockaddr*)&addr, &addrlen);
+        bytes = recvfrom(sockfd, &data, sizeof(data), 0, (struct sockaddr*)&addr, &addrlen);
+        // msg[bytes] = 0;
 
-        // fprintf(stdout, "addr: %hu", ntohs(addr.sin_port));
-        // fprintf(stdout, "%s\n", msg);
 
-        fprintf(stdout, "from client [%s:%hu] say: \n%s\n\n", inet_ntoa(addr.sin_addr), \
-            ntohs(addr.sin_port), msg);
+        // fprintf(stdout, "from client [%s:%hu] say: \n%s\n\n", inet_ntoa(addr.sin_addr), \
+        //     ntohs(addr.sin_port), msg);
+
+        fprintf(stdout, "[%s:%hu]: Ax:%hd  Ay:%hd  Az:%hd  Gx:%hd  Gy:%hd  Gz:%hd  T:%hd\n", \
+            inet_ntoa(addr.sin_addr), ntohs(addr.sin_port),
+            data.ax, data.ay, data.az, data.gx, data.gy, data.gz, data.t);
     }
     
 }
