@@ -64,9 +64,6 @@ struct raw_data {
 }data;
 
 
-#define LED_PIN 13
-bool blinkState = false;
-
 
 void setup() {
     // join I2C bus (I2Cdev library doesn't do this automatically)
@@ -95,7 +92,7 @@ void setup() {
         Serial.println("WiFi connected");
     }
 
-    if(udp.connect(IPAddress(192,168,1,169), SERVER_PORT)) {
+    if(udp.connect(IPAddress(192,168,1,16), SERVER_PORT)) {
         Serial.println("UDP connected");
     } else {
         Serial.println("UDP connect falied");
@@ -103,9 +100,6 @@ void setup() {
 
     //Send unicast
     udp.print("Hello Server!");
-
-    // configure Arduino LED for
-    pinMode(LED_PIN, OUTPUT);
 
 }
 
@@ -131,13 +125,13 @@ void loop() {
     // udp.printf("Ax:%hd  Ay:%hd  Az:%hd  Gx:%hd  Gy:%hd  Gz:%hd  T:%hd", \
     //     data.ax, data.ay, data.az, data.gx, data.gy, data.gz, data.t);
     //原始数据结构体发送
-    udp.write((const uint8_t *)&data, sizeof(data));
+    // udp.write((const uint8_t *)&data, sizeof(data));
 
-    // blink LED to indicate activity
-    blinkState = !blinkState;
-    digitalWrite(LED_PIN, blinkState);
-	delay(1000);
+    //通过广播发送, 一个发送端多个接收端
+    udp.broadcastTo((uint8_t *)&data, sizeof(data), 1234);
 
+
+    delay(1000);
 }
 
 
