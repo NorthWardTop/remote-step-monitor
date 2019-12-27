@@ -40,7 +40,8 @@ THE SOFTWARE.
 #include "I2Cdev.h"
 #include "MPU6050.h"
 #include "ESPAsyncUDP.h"
-
+//加速度传和陀螺仪介绍
+//http://www.starlino.com/imu_guide.html
 
 // 网络相关///////////////////////////////////////////////////////
 #define SSID            "OpenWrt"
@@ -92,11 +93,11 @@ void setup() {
         Serial.println("WiFi connected");
     }
 
-    if(udp.connect(IPAddress(192,168,1,16), SERVER_PORT)) {
-        Serial.println("UDP connected");
-    } else {
-        Serial.println("UDP connect falied");
-    }
+    // if(udp.connect(IPAddress(192,168,1,16), SERVER_PORT)) {
+    //     Serial.println("UDP connected");
+    // } else {
+    //     Serial.println("UDP connect falied");
+    // }
 
     //Send unicast
     udp.print("Hello Server!");
@@ -129,9 +130,13 @@ void loop() {
 
     //通过广播发送, 一个发送端多个接收端
     udp.broadcastTo((uint8_t *)&data, sizeof(data), 1234);
+    
+    //发送到python udp服务器
+    udp.writeTo((uint8_t*)&data, sizeof(data), IPAddress(192,168,1,104), 1234);
 
 
-    delay(1000);
+
+    delay(200);
 }
 
 

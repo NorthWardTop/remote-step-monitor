@@ -4,9 +4,10 @@ CC=arm-linux-gcc
 CCFLAG=-g -o
 
 TARGET=recv_udp
-# SRC=$(wildcard *.c)
-SRC=main.c
+SRC=$(wildcard *.c)
+# SRC=main.c
 OBJS=$(patsubst %.c,%.o,$(SRC))
+LIB=-lrt
 
 $(TARGET):$(SRC)
 	$(CC) $(CCFLAG) $@ $^

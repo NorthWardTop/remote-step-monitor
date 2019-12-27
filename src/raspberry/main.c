@@ -45,7 +45,6 @@ int udp_recv(int sockfd)
             inet_ntoa(addr.sin_addr), ntohs(addr.sin_port),
             data.ax, data.ay, data.az, data.gx, data.gy, data.gz, data.t);
     }
-    
 }
 
 
