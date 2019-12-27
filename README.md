@@ -19,11 +19,11 @@
 
 # 硬件选型以及连接方式
 
-## 上位机: raspberry Pi 3 Model B V1.2
+上位机: raspberry Pi 3 Model B V1.2
       ||
     局域网
       ||
-## 无线通信: NodeMCU (ESP8266)
+无线通信: NodeMCU (ESP8266)
       ||
     I2C传输
   MPU6050-NodeMCU
@@ -32,7 +32,7 @@
   SCL-D1
   SDA-D2(NodeMCU默认D1D2为I2C)
       ||
-## 传感器: MPU6050
+传感器: MPU6050
 
 # 软件框架选择和库导入
 
