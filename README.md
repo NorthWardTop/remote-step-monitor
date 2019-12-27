@@ -47,7 +47,6 @@
 1. 使用Linux API 创建UDP服务器并接受NodeMCU发送的数据
 2. 
 
-
 # 遇到的问题
 
 ## see /doc/problem.md
