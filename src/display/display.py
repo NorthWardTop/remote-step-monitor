@@ -1,34 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# import socket
-# import struct
-
-# import numpy as np
-
-# from matplotlib import pyplot as plt
-# from matplotlib import animation as antt
-# from mpl_toolkits.mplot3d import Axes3D
-
-# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-# s.bind(("192.168.1.104", 1234))
-# print("UDP bound on port 1234...")
-
-
-# while True:
-#     raw_data, addr = s.recvfrom(14)
-#     # print("Receive from %s:%s" % addr)
-#     data = struct.unpack("hhhhhhh", raw_data)
-#     print(data)
-#     print(data[0], data[1])
-#     plt.show()
-
-
-# s.close()
-
-
-
-
 
 import socket
 import struct
@@ -39,47 +11,46 @@ import matplotlib.animation as animation
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.bind(("192.168.1.104", 1234))
+s.bind(('', 1234))
 print("UDP bound on port 1234...")
 
 fig, ax = plt.subplots()
+plt.axis([0,200,-2,2])
 # x = np.arange(-17000, 17000, 1)
-x = np.arange(-1, 1, 0.001)
-line, = ax.plot(x, 'r')
-
+x = np.linspace(0, 200, 200)
+z1 = [0]*200
+z2 = [0]*200
+z3 = [0]*200
+line1, = ax.plot(z1,'r')
+line2, = ax.plot(z2,'g')
+line3, = ax.plot(z3,'b')
 AccelScaleFactor = 16384
 GyroScaleFactor = 131
 
-
-def init():  # only required for blitting to give a clean slate.
-    line.set_ydata([np.nan] * len(x))
-    return line,
- 
 
 def animate(i):
     raw_data, addr = s.recvfrom(14)
     # print("Receive from %s:%s" % addr)
     data = struct.unpack("hhhhhhh", raw_data)
     print(data)
-    line.set_ydata(data[0]/AccelScaleFactor)  # update the data.
-    return line,
+    
+    # z[i%2000]=data[0]/AccelScaleFactor
+    z1.pop()
+    z1.insert(0,data[0]/AccelScaleFactor)
+    z2.pop()
+    z2.insert(0,data[1]/AccelScaleFactor)
+    z3.pop()
+    z3.insert(0,data[2]/AccelScaleFactor)
+    # z.insert(0,data[0]/AccelScaleFactor)
+    line1.set_ydata(z1)  # update the data.
+    line2.set_ydata(z2)  # update the data.
+    line3.set_ydata(z3)  # update the data.
+    return line1,line2,line3
 
 
 ani = animation.FuncAnimation(
-    fig, animate, init_func=init, interval=2, blit=True, save_count=50)
-#    fig, animate, interval=2, blit=True)
-
-
-
-# To save the animation, use e.g.
-#
-# ani.save("movie.mp4")
-#
-# or
-#
-# from matplotlib.animation import FFMpegWriter
-# writer = FFMpegWriter(fps=15, metadata=dict(artist='Me'), bitrate=1800)
-# ani.save("movie.mp4", writer=writer)
+    # fig, animate, blit=True, save_count=50)
+    fig, animate,  interval=2, blit=True, save_count=50)
 
 plt.show()
 

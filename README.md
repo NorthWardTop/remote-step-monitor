@@ -18,12 +18,12 @@
 
 
 # 硬件选型以及连接方式
-
+1. 
 '''shell
 上位机: raspberry Pi 3 Model B V1.2
 ||
 局域网
-||
+|| 
 无线通信: NodeMCU (ESP8266) 
 ||
 I2C传输

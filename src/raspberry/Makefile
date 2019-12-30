@@ -1,18 +1,33 @@
 
-CC=arm-linux-gcc
-# CC=gcc
-CCFLAG=-g -o
-
+CC=gcc
+CCFLAG=-g -Wall
 TARGET=recv_udp
 SRC=$(wildcard *.c)
-# SRC=main.c
 OBJS=$(patsubst %.c,%.o,$(SRC))
-LIB=-lrt
+
+
+ifeq ($(pi), y)
+	CC=arm-linux-gcc
+endif
+
+ifeq ($(ap), y)
+	CC=mipsel-openwrt-linux-gcc
+	CCFLAG += -static
+endif
+
 
 $(TARGET):$(SRC)
-	$(CC) $(CCFLAG) $@ $^
+	$(CC) $(CCFLAG) -o $@ $^
 
 
 .PHONY:
 clean:
 	$(RM) $(OBJS) $(TARGET)
+
+
+
+uppi:
+	scp $(TARGET) pi@192.168.123.185:/home/pi/receive_udp
+
+upap:
+	scp $(TARGET) admin@192.168.123.1:/home/root

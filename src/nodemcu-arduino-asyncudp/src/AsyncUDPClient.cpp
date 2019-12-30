@@ -44,9 +44,8 @@ THE SOFTWARE.
 //http://www.starlino.com/imu_guide.html
 
 // 网络相关///////////////////////////////////////////////////////
-#define SSID            "OpenWrt"
+#define SSID            "PDCN0"
 #define PASSWORD        "1234567890"
-#define SERVER_IP       (192,168,1,169)
 #define SERVER_PORT     1234
 
 AsyncUDP udp;
@@ -123,20 +122,26 @@ void loop() {
     Serial.print(data.gz);Serial.print("\t");
     Serial.println(data.t);
 
-    // udp.printf("Ax:%hd  Ay:%hd  Az:%hd  Gx:%hd  Gy:%hd  Gz:%hd  T:%hd", \
+    // udp.printf("Ax:%hd  Ay:%hd  Az:%hd  Gx:%hd  Gy:%hd  Gz:%hd  T:%hd", 
     //     data.ax, data.ay, data.az, data.gx, data.gy, data.gz, data.t);
     //原始数据结构体发送
     // udp.write((const uint8_t *)&data, sizeof(data));
 
     //通过广播发送, 一个发送端多个接收端
-    udp.broadcastTo((uint8_t *)&data, sizeof(data), 1234);
+    udp.broadcastTo((uint8_t *)&data, sizeof(data), SERVER_PORT);
+
+    // //发送到树莓派
+    // udp.writeTo((uint8_t*)&data, sizeof(data), IPAddress(192,168,123,185), SERVER_PORT);
     
-    //发送到python udp服务器
-    udp.writeTo((uint8_t*)&data, sizeof(data), IPAddress(192,168,1,104), 1234);
+    // //发送到python udp服务器
+    // udp.writeTo((uint8_t*)&data, sizeof(data), IPAddress(192,168,123,14), SERVER_PORT);
+
+    // //发送到PDCN0路由器 udp服务器
+    // udp.writeTo((uint8_t*)&data, sizeof(data), IPAddress(192,168,123,1), SERVER_PORT);
 
 
 
-    delay(200);
+    delay(30);
 }
 
 
