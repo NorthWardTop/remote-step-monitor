@@ -27,7 +27,7 @@ clean:
 
 
 uppi:
-	scp $(TARGET) pi@192.168.123.185:/home/pi/receive_udp
+	scp $(TARGET) pi@192.168.123.185:/home/pi/pedometer
 
 upap:
 	scp $(TARGET) admin@192.168.123.1:/home/root
