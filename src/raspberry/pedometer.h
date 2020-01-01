@@ -7,7 +7,7 @@
 
 #define FILTER_CNT                      4       /* 均值滤波器容器大小 */
 #define SAMPLE_SIZE                     50      /* 动态峰值样品容器大小 */
-#define DYNAMIC_PRECISION               3000      /* 动态精度 两次变化差的绝对值决定是否更新 */
+#define DYNAMIC_PRECISION               1500      /* 动态精度 两次变化差的绝对值决定是否更新 */
 
 #define AXIS_NULL                       '\0'
 #define AXIS_X                          'x'
@@ -47,13 +47,13 @@ struct time_interval {
 
 
 void filter_init(struct filter_avg *filter);
-void filter_calculate(struct filter_avg *filter, struct accel *sample);
+void filter_calculate(const struct filter_avg *filter, struct accel *sample);
 
 void peak_val_init(struct peak_val *peak);
-void peak_val_update(struct peak_val *peak, struct accel *curr_val);
+void peak_val_update(struct peak_val *peak, const struct accel *curr_val);
 
 void slid_init(struct slid_reg *slid);
-char slid_update(struct slid_reg *slid, struct accel *curr_val);
+char slid_update(struct slid_reg *slid, const struct accel *curr_val);
 
 void time_init(struct time_interval *differ);
 void time_update(struct time_interval *differ);

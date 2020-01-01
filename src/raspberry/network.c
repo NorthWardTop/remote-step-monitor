@@ -4,6 +4,10 @@
 #include "network.h"
 
 
+/**
+ * 创建一个UDP套接字
+ * @return - 返回socket描述符
+ */
 int udp_create()
 {
     int sockfd;

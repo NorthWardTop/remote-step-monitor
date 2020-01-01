@@ -19,10 +19,11 @@ void filter_init(struct filter_avg *filter)
  * @filter - 样品容器
  * @sample - 返回的平均值
  */
-void filter_calculate(struct filter_avg *filter, struct accel *sample)
+void filter_calculate(const struct filter_avg *filter, struct accel *sample)
 {
     unsigned int i;
 	int x_sum = 0, y_sum = 0, z_sum = 0;
+
     //求一个样品容器内的平均
 	for (i = 0; i < FILTER_CNT; i++) {
 		x_sum += filter->info[i].ax;
@@ -64,7 +65,7 @@ void peak_val_init(struct peak_val *peak)
  * @peak - 峰值结构
  * @curr_val - 传入当前值
  */
-void peak_val_update(struct peak_val *peak, struct accel *curr_val)
+void peak_val_update(struct peak_val *peak, const struct accel *curr_val)
 {
     static unsigned int sample_cnt = 0;
     sample_cnt++;
@@ -101,7 +102,7 @@ void slid_init(struct slid_reg *slid)
  * @current_val - 当前值
  * @return - 是否更新
  */
-char slid_update(struct slid_reg *slid, struct accel *curr_val)
+char slid_update(struct slid_reg *slid, const struct accel *curr_val)
 {
     char seted = 0;
 
@@ -153,8 +154,10 @@ static char active_axis(const struct peak_val *peak)
 }
 
 
-
-
+/**
+ * 初始化时间间隔, 原始间隔初始化位 1s
+ * @differ - 时间间隔
+ */
 void time_init(struct time_interval *differ)
 {
     bzero(differ, sizeof(struct time_interval));
@@ -164,6 +167,10 @@ void time_init(struct time_interval *differ)
 }
 
 
+/**
+ * 更新时间间隔, 新时间位当前时间
+ * @differ - 时间间隔
+ */
 void time_update(struct time_interval *differ)
 {
     struct timeval new;
@@ -172,6 +179,7 @@ void time_update(struct time_interval *differ)
     differ->last = differ->this;
     differ->this = new;
 }
+
 
 /**
  * 根据时间间隔, 判断是否有效步数
@@ -187,7 +195,7 @@ char time_cond(struct time_interval *differ)
     char step = 0;
     
     
-    // 两次时间间隔在时间窗口内&& interval < TIME_INTERVAL_MAX
+    // 两次时间间隔在时间窗口内, 不在则清空时间间隔重新计算时间
     if (interval > TIME_INTERVAL_MIN && interval < TIME_INTERVAL_MAX)
         step = 1;
     else 
@@ -197,15 +205,20 @@ char time_cond(struct time_interval *differ)
 }
 
 
-
+/**
+ * 检查计步的空间条件
+ *      - 先获取到活跃轴
+ *      - 当新老样本在峰值平均的两侧, 就说明有一个周期
+ * @peak - 峰值
+ * @slid - 经低通滤波处理过的样本
+ */
 char space_cond(const struct peak_val *peak, const struct slid_reg *slid)
 {
     char step = 0;
-    char axis = active_axis(peak);
+    char axis = active_axis(peak); //获取最活跃的轴
 
     switch (axis) {
 		case AXIS_NULL: {
-			//fix
 			break;
 		}
 		case AXIS_X: {
@@ -232,23 +245,4 @@ char space_cond(const struct peak_val *peak, const struct slid_reg *slid)
     
     return step;
 }
-
-
-// /**
-//  * 更新步数
-//  *      - 根据峰值以及精度值, 判断当前数据是否为一步
-//  * @peak - 峰值
-//  * @slid - 精度值
-//  * @step_count - 更新步数
-//  */
-// char detect_step(const struct peak_val *peak, const struct slid_reg *slid, struct time_interval *differ)
-// {
-//     char step = 0;
-
-//     if (time_cond(differ) && space_cond(peak, slid)) 
-//         step = 1;
-
-//     return step;
-
-// }
 
