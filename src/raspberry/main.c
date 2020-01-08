@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
 {
     
     int sockfd = 0;
-    int bytes = 0;
+    // int bytes = 0;
     unsigned int i = 0;
     struct accel acc;
     unsigned int step_conut = 0;
@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
     //算法开始, 接受数据和处理
     for (;;) {
         
-        bytes = udp_recv(sockfd, &acc);
+        udp_recv(sockfd, &acc);
 
 #ifdef __DEBUG
         // fprintf(stdout, "ax:%hd  ay:%hd  az:%hd  size:%d\n", acc.ax, acc.ay, acc.az, bytes);

@@ -32,7 +32,7 @@ uppi:
 
 # 二进制程序上传到AP
 upap:
-	scp $(TARGET) admin@192.168.123.1:/home/root
+	scp $(TARGET) admin@192.168.123.1:/etc/storage/bin
 
 # 二进制上传到腾讯vps
 upvps:

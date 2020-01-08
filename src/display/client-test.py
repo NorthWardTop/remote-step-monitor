@@ -1,10 +1,7 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 
-# import socket
-# import time
- 
-# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+
+print("sasa")
 # addr = ("192.168.1.179", 1234)
  
 # while True:
@@ -72,29 +69,29 @@
 
 
 
-import socket
-import struct
+# import socket
+# import struct
 
-import numpy as np
+# import numpy as np
 
-from matplotlib import pyplot as plt
-from matplotlib import animation as antt
-from mpl_toolkits.mplot3d import Axes3D
+# from matplotlib import pyplot as plt
+# from matplotlib import animation as antt
+# from mpl_toolkits.mplot3d import Axes3D
 
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.bind(("192.168.123.14", 1234))
-print("UDP bound on port 1234...")
+# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+# s.bind(("192.168.123.14", 1234))
+# print("UDP bound on port 1234...")
 
 
-while True:
-    raw_data, addr = s.recvfrom(14)
-    # print("Receive from %s:%s" % addr)
-    data = struct.unpack("hhhhhhh", raw_data)
-    print(data)
-    print(data[0], data[1])
-    plt.show()
+# while True:
+#     raw_data, addr = s.recvfrom(14)
+#     # print("Receive from %s:%s" % addr)
+#     data = struct.unpack("hhhhhhh", raw_data)
+#     print(data)
+#     print(data[0], data[1])
+#     plt.show()
 
-s.close()
+# s.close()
 
 
 

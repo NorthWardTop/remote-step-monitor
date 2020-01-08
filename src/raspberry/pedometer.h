@@ -7,7 +7,7 @@
 
 #define FILTER_CNT                      4       /* 均值滤波器容器大小 */
 #define SAMPLE_SIZE                     50      /* 动态峰值样品容器大小 */
-#define DYNAMIC_PRECISION               1500      /* 动态精度 两次变化差的绝对值决定是否更新 */
+#define DYNAMIC_PRECISION               1300      /* 动态精度 两次变化差的绝对值决定是否更新 */
 
 #define AXIS_NULL                       '\0'
 #define AXIS_X                          'x'
