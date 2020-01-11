@@ -1,15 +1,14 @@
 
 #include "common.h"
 #include "network.h"
-#include "pedometer.h"
-
+#include "pace.h"
+#include "display.h"
 
 
 int main(int argc, char const *argv[])
 {
-    
     int sockfd = 0;
-    // int bytes = 0;
+    int displayfd = 0;
     unsigned int i = 0;
     struct accel acc;
     unsigned int step_conut = 0;
@@ -19,15 +18,22 @@ int main(int argc, char const *argv[])
     struct peak_val peak; //存储峰值
     struct slid_reg slid;  //存储动态精度
     struct time_interval differ; //存储步步间时间间隔
-    
 
+    if (0 != geteuid()) {
+        fprintf(stderr, "Must be run by root: %s\n", strerror(EACCES));
+        exit(-EACCES);
+    }
+
+    //算法初始化
     filter_init(&avg);
     peak_val_init(&peak);
     slid_init(&slid);
     time_init(&differ);
 
-
+    // 通信初始化
     sockfd = udp_create();
+    display_con2fbmap(OUTPUT_CON, OUTPUT_FB);
+    displayfd = display_dev_init(OUTPUT_CON);
 
     //算法开始, 接受数据和处理
     for (;;) {
@@ -53,7 +59,9 @@ int main(int argc, char const *argv[])
                 fprintf(stdout, "step_count: %d\n", step_conut);
 #endif
             }
-        }        
+        }
+
+        display_full(displayfd, &filter_result, step_conut);
     }
     
     

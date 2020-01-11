@@ -1,91 +1,25 @@
-/***********************************
-本程序用于树莓派通过GPIO连接1602的效
-果演示，使用wiringPi库和其附带的LCD
-库进行GPIO和1602的操作。
-                 created by @qtsharp
-************************************
-示例1：
-    $sudo ./l602
-    屏幕显示：
-        ------------------
-        |  Raspberry Pi! |
-        |51.9C 215/477MB |
-        ------------------
-        
-示例2：
-    $sudo ./1602 QtSharp
-    屏幕显示：
-        ------------------
-        |QtSharp         |
-        |51.9C 215/477MB |
-        ------------------
-示例3：
-    $sudo ./1602 \ \ Hello\ World
-    屏幕显示：
-        ------------------
-        |  hello world   |
-        |51.9C 215/477MB |
-        ------------------
-************************************/
-
-#include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <linux/fb.h>
+#include <sys/mman.h>
+#include <sys/ioctl.h>
 
-#include <wiringPi.h>
-#include <lcd.h>
 
-int main (int args, char *argv[])
+int main(int argc, char const *argv[])
 {
-    if (wiringPiSetup () == -1)
-        exit (1) ;
-    int fd = lcdInit (2, 16, 8,  11,10 , 0,1,2,3,4,5,6,7) ;
-    if (fd == -1)
-    {
-        printf ("lcdInit 1 failed\n") ;
-        return 1 ;
-    }
-    sleep (1) ; //显示屏初始化
-    
-    lcdPosition (fd, 0, 0); lcdPuts (fd, "  Raspberry Pi!"); //启动信息
-    sleep(1);
-    
-    if(argv[1])
-    {
-        lcdPosition (fd, 0, 0) ;
-        lcdPuts (fd, "                ") ; //清空第一行
-        lcdPosition (fd, 0, 0) ; lcdPuts (fd, argv[1]) ; //命令行参数显示至第一行
-    }
+	int fbfd = -1;
+	int stdoutfd = dup(STDOUT_FILENO);
 
-    FILE *fp;
-    char temp_char[15]; //树莓派温度
-    char Total[20]; //总内存量
-    char Free[20]; //空闲内存量
-    
-    while(1)
-    {
-        fp=fopen("/sys/class/thermal/thermal_zone0/temp","r"); //读取树莓派温度
-        fgets(temp_char,9,fp);
-        float Temp;
-        Temp=atof(temp_char)/1000;
-        lcdPosition (fd, 0, 1);lcdPrintf (fd, "%3.1fC", Temp) ; 
-        fclose(fp);
+	fbfd = open("/dev/fb1", O_WRONLY);
 
-        fp=fopen("/proc/meminfo","r"); //读取内存信息
-        fgets(Total,19,fp);
-        fgets(Total,4,fp);
-        fgets(Free,9,fp);
-        fgets(Free,19,fp);
-        fgets(Free,4,fp);
-        lcdPosition (fd, 7, 1);
-        lcdPrintf (fd, "%3d/%3dMB", atoi(Free),atoi(Total)) ;
-        fclose(fp);
-        
-        sleep(1);
-    }
+	dup2(fbfd, STDOUT_FILENO);
+	printf("testetettststettsetsetse");
+	// dup2(stdoutfd, STDOUT_FILENO);
+	// close(fbfd);
+	
 
-    return 0;
-    
+
+	return 0;
 }
-
-

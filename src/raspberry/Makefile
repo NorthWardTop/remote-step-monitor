@@ -1,9 +1,10 @@
 
 CC=gcc
 CCFLAG=-g -Wall
-TARGET=recv_udp
+TARGET=pedometer
 SRC=$(wildcard *.c)
-OBJS=$(patsubst %.c,%.o,$(SRC))
+# OBJS=$(patsubst %.c,%.o,$(SRC))
+OBJS=main.o network.o pace.o display.o 
 
 # 当make pi=y时候, 编译链更改为arm
 ifeq ($(pi), y)

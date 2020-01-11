@@ -1,7 +1,9 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
-
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -15,9 +17,13 @@
 #include <sys/time.h>  
 #include <arpa/inet.h>
 #include <linux/limits.h>
-#include <linux/kernel.h> //导入max() min()
+#include <linux/kernel.h> //å¯¼å…¥max() min()
+#include <linux/fb.h>
 
 #define __DEBUG
+#define ACCEL_SCALE_FACTOR		16384.0
+#define GYRO_SCALE_FATOR		131.0
+
 
 
 struct accel
