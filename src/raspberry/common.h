@@ -15,12 +15,15 @@
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <sys/time.h>  
+#include <sys/param.h>
 #include <arpa/inet.h>
 #include <linux/limits.h>
 #include <linux/kernel.h> //å¯¼å…¥max() min()
 #include <linux/fb.h>
+#include <signal.h>
 
-#define __DEBUG
+// #define __DEBUG
+
 #define ACCEL_SCALE_FACTOR		16384.0
 #define GYRO_SCALE_FATOR		131.0
 

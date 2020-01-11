@@ -53,3 +53,12 @@ SDA-D2(NodeMCU默认D1D2为I2C)
 # 遇到的问题
 
 ## see /doc/problem.md
+
+
+
+# 参考文献
+//加速度传和陀螺仪介绍
+//http://www.starlino.com/imu_guide.html
+
+//计步算法
+//https://www.analog.com/cn/analog-dialogue/articles/pedometer-design-3-axis-digital-acceler.html

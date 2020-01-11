@@ -8,8 +8,7 @@
 #include "I2Cdev.h"
 #include "MPU6050.h"
 #include "ESPAsyncUDP.h"
-//加速度传和陀螺仪介绍
-//http://www.starlino.com/imu_guide.html
+
 
 // 网络相关///////////////////////////////////////////////////////
 #define SSID            "PDCN0"
@@ -59,16 +58,6 @@ void setup() {
 	} else {
         Serial.println("WiFi connected");
     }
-
-    // if(udp.connect(IPAddress(192,168,1,16), SERVER_PORT)) {
-    //     Serial.println("UDP connected");
-    // } else {
-    //     Serial.println("UDP connect falied");
-    // }
-
-    //Send unicast
-    udp.print("Hello Server!");
-
 }
 
 
@@ -90,11 +79,6 @@ void loop() {
     Serial.print(data.gz);Serial.print("\t");
     Serial.println(data.t);
 
-    // udp.printf("Ax:%hd  Ay:%hd  Az:%hd  Gx:%hd  Gy:%hd  Gz:%hd  T:%hd", 
-    //     data.ax, data.ay, data.az, data.gx, data.gy, data.gz, data.t);
-    //原始数据结构体发送
-    // udp.write((const uint8_t *)&data, sizeof(data));
-
     //通过广播发送, 一个发送端多个接收端
     udp.broadcastTo((uint8_t *)&data, sizeof(data), SERVER_PORT);
 
@@ -106,7 +90,6 @@ void loop() {
 
     // //发送到PDCN0路由器 udp服务器
     // udp.writeTo((uint8_t*)&data, sizeof(data), IPAddress(192,168,123,1), SERVER_PORT);
-
 
 
     delay(40);

@@ -4,7 +4,7 @@ CCFLAG=-g -Wall
 TARGET=pedometer
 SRC=$(wildcard *.c)
 # OBJS=$(patsubst %.c,%.o,$(SRC))
-OBJS=main.o network.o pace.o display.o 
+OBJS=main.o network.o pace.o display.o  daemon.o
 
 # 当make pi=y时候, 编译链更改为arm
 ifeq ($(pi), y)

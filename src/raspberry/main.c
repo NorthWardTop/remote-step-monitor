@@ -1,5 +1,6 @@
 
 #include "common.h"
+#include "daemon.h"
 #include "network.h"
 #include "pace.h"
 #include "display.h"
@@ -23,6 +24,8 @@ int main(int argc, char const *argv[])
         fprintf(stderr, "Must be run by root: %s\n", strerror(EACCES));
         exit(-EACCES);
     }
+
+    init_daemon(); //守护进程的方式运行
 
     //算法初始化
     filter_init(&avg);

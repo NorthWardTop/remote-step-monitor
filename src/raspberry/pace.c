@@ -2,7 +2,6 @@
 #include "common.h"
 #include "pace.h"
 
-//https://www.analog.com/cn/analog-dialogue/articles/pedometer-design-3-axis-digital-acceler.html
 
 /**
  * 初始化平均过滤器容器
