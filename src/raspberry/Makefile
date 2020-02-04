@@ -29,7 +29,7 @@ clean:
 
 # 二进制程序上传到PI
 uppi:
-	scp $(TARGET) pi@192.168.123.185:/home/pi/pedometer
+	scp $(TARGET) pi@raspberrypi.lan:/home/pi/pedometer
 
 # 二进制程序上传到AP
 upap:

@@ -20,6 +20,7 @@ int main(int argc, char const *argv[])
     struct slid_reg slid;  //存储动态精度
     struct time_interval differ; //存储步步间时间间隔
 
+
     if (0 != geteuid()) {
         fprintf(stderr, "Must be run by root: %s\n", strerror(EACCES));
         exit(-EACCES);
