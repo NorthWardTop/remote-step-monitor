@@ -19,6 +19,10 @@
 
 /**
  * 
+
+ Nokia5110屏幕驱动安装, 原文地址:
+https://yangxuan8282.gitbooks.io/rpi_cache/chapter26.html
+
 sudo modprobe fbtft_device name=nokia3310
 con2fbmap 1 1
 
