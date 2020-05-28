@@ -57,7 +57,7 @@ int main(int argc, char const *argv[])
         if (slid_update(&slid, &filter_result)) {
             //判断当前变化是否满足空间要求和时间要求
             if (time_cond(&differ) && space_cond(&peak, &slid)) {
-                step_conut++;
+                step_conut+=2;
                 time_update(&differ); //更新上一步和这一步的时间间隔
 #ifdef __DEBUG
                 fprintf(stdout, "step_count: %d\n", step_conut);
